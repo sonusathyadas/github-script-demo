@@ -21,9 +21,3 @@ jobs:
               repo: context.repo.repo,
               body: "🎉 You've created this issue comment using GitHub Script!!!"
             });
-            
-            await github.rest.projects.createCard({
-              column_id: 12345678,
-              content_id: context.payload.issue.id,
-              content_type: "Issue"
-            });
