@@ -10,14 +10,15 @@ jobs:
       with:
         github-token: ${{secrets.GITHUB_TOKEN}}
         script: |
-            github.rest.issues.createComment({
+            await github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
               body: "🎉 You've created this issue comment using GitHub Script!!!"
-            })
-            github.rest.projects.createCard({
-              column_id: ${{ env.COLUMN_ID }},
+            });
+            
+            await github.rest.projects.createCard({
+              column_id: 12345678,
               content_id: context.payload.issue.id,
               content_type: "Issue"
             });
