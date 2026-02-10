@@ -1,32 +1,23 @@
 name: Learning GitHub Script
-
 on:
   issues:
     types: [opened]
-
 jobs:
   comment:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/github-script@v7
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            await github.rest.issues.createComment({
+    - uses: actions/github-script@v7
+      with:
+        github-token: ${{secrets.GITHUB_TOKEN}}
+        script: |
+            github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
               body: "🎉 You've created this issue comment using GitHub Script!!!"
             })
-
-            // Replace this with your real project column ID (number).
-            // Best practice: store it as a repo secret/variable and read it here.
-            const column_id = Number(process.env.COLUMN_ID || 0)
-
-            if (column_id) {
-              await github.rest.projects.createCard({
-                column_id,
-                content_id: context.payload.issue.id,
-                content_type: "Issue"
-              })
-            }
+            github.rest.projects.createCard({
+              column_id: ${{ env.COLUMN_ID }},
+              content_id: context.payload.issue.id,
+              content_type: "Issue"
+            });
